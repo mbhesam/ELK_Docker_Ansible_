@@ -1,0 +1,4 @@
+[servers]
+#centos
+#ubuntu
+ansible-server 

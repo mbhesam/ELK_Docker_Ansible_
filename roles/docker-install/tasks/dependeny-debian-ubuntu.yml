@@ -1,0 +1,17 @@
+# install git vcs
+- name: Ensure git is present
+  apt:
+    name: git
+    state: present
+# install required packages
+- name: Debian-Based | Update apt package index and install necessary packages
+  apt:
+    name:
+      - software-properties-common
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+    state: present
+    update_cache: yes

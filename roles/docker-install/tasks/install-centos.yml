@@ -1,0 +1,49 @@
+- name: Redhat-Based | Add signing key
+  ansible.builtin.rpm_key:
+    key: "{{ docker_centos_key_url }}"
+    state: present
+  when: "{{ docker_os == 'centos' }}" 
+
+- name: Redhat-Based | Add Docker CE repository
+  get_url:
+    url: "{{ docker_centos_repository }}"
+    dest: /etc/yum.repos.d/docker-ce.repo
+  when: "{{ docker_os == 'centos'}}" 
+
+- name: Redhat-Based | Install Docker CE packages
+  dnf:
+    name:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+        - docker-buildx-plugin
+        - docker-compose-plugin
+    state: present
+    update_cache: yes
+  ignore_errors: yes
+  when: "{{ docker_os == 'centos'}}" 
+
+- name: Redhat-Based | Start docker service
+  service:
+    name: docker
+    state: started
+  when: "{{ docker_os == 'centos'}}"
+
+- name: Redhat-Based | Verify Docker Installation
+  command: docker run hello-world
+  register: result
+  ignore_errors: true
+  when: "{{ docker_os == 'centos'}}" 
+
+- name: Redhat-Based | Docker Installation Status
+  debug:
+    var: result.stdout_lines
+  when: "{{ docker_os == 'centos'}}" 
+
+
+- name:  Redhat-Based | Ensure docker-compose is installed and available
+  get_url: 
+    url : "{{docker_compose_installation_repo}}"
+    dest: "{{docker_compose_installation_path}}"
+    mode: 'u+x,g+x'
+  when: "{{ docker_os == 'centos'}}" 

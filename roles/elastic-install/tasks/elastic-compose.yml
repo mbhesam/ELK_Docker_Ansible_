@@ -1,0 +1,14 @@
+- name: Creates directory
+  file:
+    path: "{{ des_docker_compose_dir }}"
+    state: directory
+
+- name: Copy ELK stack config files
+  synchronize:
+    src: templates/docker-elk/
+    dest: "{{ des_docker_compose_dir }}"
+  
+- name: Start Docker Compose services
+  docker_compose:
+    project_src: "{{des_docker_compose_dir}}"
+    state: present

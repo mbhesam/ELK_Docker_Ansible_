@@ -1,0 +1,10 @@
+---
+- hosts: servers
+  gather_facts: true
+  roles:
+    - docker-install
+    - elastic-install
+  environment:
+    http_proxy: "{{http_proxy_address}}"
+    https_proxy: "{{https_proxy_address}}"
+

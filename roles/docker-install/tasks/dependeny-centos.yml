@@ -1,0 +1,24 @@
+# install git vcs
+- name: Ensure git is present
+  yum:
+    name: git
+    state: present
+  when: "{{ docker_os  == 'centos'}}" 
+# install vim editor  
+- name: Ensure vim is present
+  yum:
+    name: vim
+    state: present
+  when: "{{ docker_os  == 'centos'}}" 
+# install mc package
+- name: Ensure mc is present
+  yum:
+    name: mc
+    state: present
+  when: "{{ docker_os  == 'centos'}}" 
+# install yumutils package
+- name: Ensure yumutils is present
+  yum:
+    name: yum-utils
+    state: present
+  when: "{{ docker_os  == 'centos'}}" 
